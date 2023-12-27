@@ -28,7 +28,7 @@ import { saveAs } from "file-saver";
 import MyDocument from "./MyDocument";
 
 function InvoiceFormData() {
-  const [firstName, setFirstName] = useState("dfhfh");
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [taxOffice, setTaxOffice] = useState("");
@@ -50,7 +50,6 @@ function InvoiceFormData() {
       },
       items,
       logo,
-      totalPrice,
     });
   }, [
     firstName,
@@ -74,7 +73,6 @@ function InvoiceFormData() {
     },
     items,
     logo,
-    totalPrice,
   });
 
   const removeItem = (index) => {
@@ -101,8 +99,6 @@ function InvoiceFormData() {
       const blob = await pdf(<MyDocument data={invoiceData} />).toBlob();
       saveAs(blob, "invoice.pdf");
     };
-
-    console.log(invoiceData);
 
     return (
       <>

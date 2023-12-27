@@ -2,6 +2,7 @@ import InvoiceFormData from "@/components/InvoiceFormData";
 import MyDocument from "@/components/MyDocument";
 import { Container, Stack } from "@chakra-ui/react";
 import { PDFViewer } from "@react-pdf/renderer";
+import Head from "next/head";
 import React from "react";
 
 export default function Home() {
@@ -14,6 +15,11 @@ export default function Home() {
 
   return (
     <>
+    <Head>
+      <title>
+        Invoice Creator
+      </title>
+    </Head>
       {mount && (
         <>
           <Stack my={10} spacing={10}>

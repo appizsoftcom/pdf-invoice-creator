@@ -1,32 +1,47 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
+
+
 function MyDocument({ data }) {
   const styles = StyleSheet.create({
     page: {
       flexDirection: "row",
       backgroundColor: "#E4E4E4",
+      fontFamily: "Roboto",
     },
     section: {
       margin: 10,
       padding: 10,
       flexGrow: 1,
+      fontFamily: "Roboto",
     },
     header: {
       fontSize: 20,
       marginBottom: 10,
+      fontFamily: "Roboto",
     },
     address: {
       marginBottom: 10,
+      fontFamily: "Roboto",
     },
     lineItem: {
       flexDirection: "row",
       justifyContent: "space-between",
       marginBottom: 5,
+      fontFamily: "Roboto",
     },
     total: {
       marginTop: 10,
       borderTopWidth: 1,
       paddingTop: 5,
+      fontFamily: "Roboto",
     },
   });
 

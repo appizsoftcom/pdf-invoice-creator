@@ -4,7 +4,6 @@ import { Container, Stack } from "@chakra-ui/react";
 import { PDFViewer } from "@react-pdf/renderer";
 import React from "react";
 
-
 export default function Home() {
   // Create styles
   const [mount, setMount] = React.useState(false);
@@ -17,13 +16,9 @@ export default function Home() {
     <>
       {mount && (
         <>
-          <Stack my={10}  spacing={10}>
+          <Stack my={10} spacing={10}>
             <InvoiceFormData />
           </Stack>
-
-          <PDFViewer>
-            <MyDocument />
-          </PDFViewer>
         </>
       )}
     </>

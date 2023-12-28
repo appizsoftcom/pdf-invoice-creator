@@ -3,6 +3,7 @@ import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { appWithTranslation } from "next-i18next";
 const UserLayout = dynamic(() => import("../layouts/UserLayout"));
+import '@/styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   let Layout = UserLayout;

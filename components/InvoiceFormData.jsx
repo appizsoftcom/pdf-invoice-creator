@@ -1,6 +1,8 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
+  Container,
   Divider,
   Flex,
   FormControl,
@@ -23,6 +25,7 @@ import {
   Page,
   Text as PDFText,
   pdf,
+  Font,
 } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import MyDocument from "./MyDocument";
@@ -33,11 +36,15 @@ function InvoiceFormData() {
   const [address, setAddress] = useState("");
   const [taxOffice, setTaxOffice] = useState("");
   const [tcIdentityNumber, setTcIdentityNumber] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
   const [logo, setLogo] = useState("");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [items, setItems] = useState([]);
+
+  Font.register({
+    family: "Roboto",
+    src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
+  });
 
   useEffect(() => {
     setInvoiceData({
@@ -98,6 +105,7 @@ function InvoiceFormData() {
     const handleSavePDF = async () => {
       const blob = await pdf(<MyDocument data={invoiceData} />).toBlob();
       saveAs(blob, "invoice.pdf");
+      //location.reload();
     };
 
     return (
@@ -105,7 +113,8 @@ function InvoiceFormData() {
         <Button
           colorScheme={"green"}
           variant={"outline"}
-          onClick={handleSavePDF}
+          // onClick={handleSavePDF}
+          onClick={() => window.print()}
         >
           PDF OLUŞTUR
         </Button>
@@ -114,93 +123,101 @@ function InvoiceFormData() {
   };
 
   return (
-    <VStack spacing={4} align={"stretch"} maxW={"md"} m="auto">
-      <HStack>
-        <Input
-          placeholder="Ad:"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <Input
-          placeholder="Soyad:"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-      </HStack>
-      <Input
-        placeholder="Adress:"
-        value={address}
-        as="textarea"
-        onChange={(e) => setAddress(e.target.value)}
-        height={100}
-      />
-      <Input
-        placeholder="Vergi Dairesi:"
-        value={taxOffice}
-        onChange={(e) => setTaxOffice(e.target.value)}
-      />
-      <Input
-        placeholder="Tc Kimlik No"
-        value={tcIdentityNumber}
-        onChange={(e) => setTcIdentityNumber(e.target.value)}
-        maxLength={11}
-      />
-
-      <Divider />
-      <Flex gap={5}>
+    <Box p={20}>
+      <VStack
+        id="fatura-form"
+        spacing={4}
+        align={"stretch"}
+        maxW={"md"}
+        m="auto"
+      >
         <HStack>
           <Input
-            type="text"
-            placeholder="Ürün Adı"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
+            placeholder="Ad:"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
           <Input
-            type="text"
-            placeholder="Ürün Fiyatı"
-            value={productPrice}
-            onChange={(e) => setProductPrice(e.target.value)}
+            placeholder="Soyad:"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </HStack>
-        <Button colorScheme={"green"} onClick={handleAddItem}>
-          Ekle
-        </Button>
-      </Flex>
+        <Input
+          placeholder="Adress:"
+          value={address}
+          as="textarea"
+          onChange={(e) => setAddress(e.target.value)}
+          height={100}
+        />
+        <Input
+          placeholder="Vergi Dairesi:"
+          value={taxOffice}
+          onChange={(e) => setTaxOffice(e.target.value)}
+        />
+        <Input
+          placeholder="Tc Kimlik No"
+          value={tcIdentityNumber}
+          onChange={(e) => setTcIdentityNumber(e.target.value)}
+          maxLength={11}
+        />
 
-      {items.length > 0 && (
-        <>
-          <TableContainer>
-            <Table variant={"simple"}>
-              <Thead>
-                <Tr>
-                  <Td>Ürün Adı</Td>
-                  <Td>Fiyat</Td>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {items?.map((i, index) => {
-                  return (
-                    <Tr key={i.productName}>
-                      <Td>{i.productName}</Td>
-                      <Td>{i.productPrice}</Td>
-                      <Td>
-                        <IconButton
-                          icon={<CloseIcon />}
-                          onClick={() => removeItem(index)}
-                          colorScheme="red"
-                        />
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
+        <Divider />
+        <Flex gap={5}>
+          <HStack>
+            <Input
+              type="text"
+              placeholder="Ürün Adı"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Ürün Fiyatı"
+              value={productPrice}
+              onChange={(e) => setProductPrice(e.target.value)}
+            />
+          </HStack>
+          <Button colorScheme={"green"} onClick={handleAddItem}>
+            Ekle
+          </Button>
+        </Flex>
 
-      <SavePDFButton />
-    </VStack>
+        {items.length > 0 && (
+          <>
+            <TableContainer>
+              <Table variant={"simple"}>
+                <Thead>
+                  <Tr>
+                    <Td>Ürün Adı</Td>
+                    <Td>Fiyat</Td>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {items?.map((i, index) => {
+                    return (
+                      <Tr key={i.productName}>
+                        <Td>{i.productName}</Td>
+                        <Td>{i.productPrice}</Td>
+                        <Td>
+                          <IconButton
+                            icon={<CloseIcon />}
+                            onClick={() => removeItem(index)}
+                            colorScheme="red"
+                          />
+                        </Td>
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+
+        <SavePDFButton />
+      </VStack>
+    </Box>
   );
 }
 

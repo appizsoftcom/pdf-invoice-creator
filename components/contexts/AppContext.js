@@ -17,9 +17,9 @@ export const AppContextProvider = ({ children }) => {
   const [logo, setLogo] = useState("");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
-  const [productCurrency, setProductCurrency] = useState("");
+  const [productCurrency, setProductCurrency] = useState("TRY");
 
-  const [invoiceNumber, setInvoiceNumber] = useState(0);
+  const [invoiceNumber, setInvoiceNumber] = useState("");
  
 
   const [items, setItems] = useState([]);

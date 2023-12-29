@@ -1,4 +1,5 @@
 import Invoice from "@/components/Invoice";
+import TestGenerate from "@/components/TestGenerate";
 import { useAppContext } from "@/contexts/AppContext";
 import Head from "next/head";
 import React from "react";

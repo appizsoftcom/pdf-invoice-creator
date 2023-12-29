@@ -114,15 +114,18 @@ function Invoice({ data }) {
         </div>
 
         <div class="item">
-          <span><b>Ürün Adı</b></span>
-          <span><b>Fiyat</b></span>
+          <span>
+            <b>Ürün Adı</b>
+          </span>
+          <span>
+            <b>Fiyat</b>
+          </span>
         </div>
         {data?.items.length > 0 &&
           data?.items.map((item) => (
             <div className="item">
               <span>{item.productName}</span>
               <span>{item.productPrice + " " + item?.productCurrency}</span>
-    
             </div>
           ))}
       </div>
@@ -130,7 +133,8 @@ function Invoice({ data }) {
 
       <div className="">
         <Text textAlign={"end"}>
-          Toplam Tutar: {data.totalPrice + " " + data.receiver.productCurrency || 0}
+          Toplam Tutar:{" "}
+          {data.totalPrice + " " + data.receiver.productCurrency || 0}
         </Text>
       </div>
       <Divider />
@@ -156,15 +160,15 @@ const styles = {
     width: "100%",
     borderCollapse: "collapse",
     marginTop: "15px",
+    fontSize: "md",
   },
 };
 
 const BankAccountInfo = () => {
   return (
-    <fieldset style={styles.fieldset}>
-      <legend style={styles.legend}>BANKA HESAP BİLGİLERİ</legend>
-
-      <table style={styles.table}>
+    <fieldset {...styles.fieldset}>
+      <legend {...styles.legend}>BANKA HESAP BİLGİLERİ</legend>
+      <table {...styles.table}>
         <thead>
           <tr>
             <th>BANKA ADI</th>

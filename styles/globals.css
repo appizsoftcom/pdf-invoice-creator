@@ -17,7 +17,8 @@
 }
 
 @media print {
-  #download-button, #fatura-form {
+  #download-button,
+  #fatura-form {
     display: none;
   }
   @page {
@@ -39,15 +40,14 @@
   }
 }
 
-
-
 body {
   font-family: "Arial", sans-serif;
 }
 
 .invoice {
   width: 210mm;
-  height: 297mm;
+  /*height: 297mm;*/
+  height: auto;
   margin: 20mm auto;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

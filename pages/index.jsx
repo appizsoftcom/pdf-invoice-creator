@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Container,
   Divider,
   Flex,
@@ -26,6 +27,7 @@ import {
 import { PDFViewer } from "@react-pdf/renderer";
 import jsPDF from "jspdf";
 import Head from "next/head";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
@@ -141,6 +143,14 @@ export default function Home() {
       </Head>
       {mount && (
         <>
+          <Center mt={5}>
+            <Link href="/page2" target="_blank">
+              <Button Button colorScheme={"blue"} variant={"outline"}>
+                Page 2
+              </Button>
+            </Link>
+          </Center>
+
           <Flex>
             <VStack id="fatura-form" spacing={4} w={"md"} p={10}>
               <Select onChange={handleChange}>
@@ -290,8 +300,6 @@ const SavePDFButton = () => {
       >
         PDF OLUŞTUR
       </Button>
-
-      <TestGenerate />
     </>
   );
 };

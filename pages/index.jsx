@@ -1,10 +1,12 @@
 import Invoice from "@/components/Invoice";
 import InvoiceFormData from "@/components/InvoiceFormData";
 import MyDocument from "@/components/MyDocument";
+import TestGenerate from "@/components/TestGenerate";
 import { CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
   Divider,
   Flex,
@@ -22,6 +24,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { PDFViewer } from "@react-pdf/renderer";
+import jsPDF from "jspdf";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
@@ -139,12 +142,7 @@ export default function Home() {
       {mount && (
         <>
           <Flex>
-            <VStack
-              id="fatura-form"
-              spacing={4}
-              w={"md"}
-              p={10}
-            >
+            <VStack id="fatura-form" spacing={4} w={"md"} p={10}>
               <Select onChange={handleChange}>
                 <option value={0}>Gerçek Kişi</option>
                 <option value={1}>Tüzel Kişi</option>
@@ -226,7 +224,6 @@ export default function Home() {
                     <option value={"TRY"}>₺</option>
                     <option value={"USD"}>$</option>
                     <option value={"EUR"}>£</option>
-
                   </Select>
                 </HStack>
                 <Button colorScheme={"green"} onClick={handleAddItem}>
@@ -293,6 +290,8 @@ const SavePDFButton = () => {
       >
         PDF OLUŞTUR
       </Button>
+
+      <TestGenerate />
     </>
   );
 };

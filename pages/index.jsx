@@ -45,6 +45,7 @@ export default function Home() {
   const [productPrice, setProductPrice] = useState("");
   const [productCurrency, setProductCurrency] = useState("");
 
+  const [invoiceNumber, setInvoiceNumber] = useState(0);
   const [invoiceType, setInvoiceType] = useState(0);
 
   const [items, setItems] = useState([]);
@@ -58,11 +59,12 @@ export default function Home() {
         taxOffice,
         taxNumber,
         tcIdentityNumber,
-        productCurrency
+        productCurrency,
       },
       items,
       logo,
       totalPrice,
+      invoiceNumber,
     });
   }, [
     firstName,
@@ -76,6 +78,7 @@ export default function Home() {
     productPrice,
     productCurrency,
     items,
+    invoiceNumber,
   ]);
 
   const totalPrice = items.reduce((accumulator, currentItem) => {
@@ -89,11 +92,11 @@ export default function Home() {
       address,
       taxOffice,
       tcIdentityNumber,
-      productCurrency
     },
     items,
     totalPrice,
     logo,
+    invoiceNumber,
   });
 
   const removeItem = (index) => {
@@ -107,6 +110,7 @@ export default function Home() {
       const newItem = {
         productName,
         productPrice: parseFloat(productPrice),
+        productCurrency,
       };
 
       setItems([...items, newItem]);
@@ -124,6 +128,7 @@ export default function Home() {
 
   const handle2Change = (event) => {
     setProductCurrency(event.target.value);
+    setItems([]);
   };
 
   return (
@@ -133,129 +138,135 @@ export default function Home() {
       </Head>
       {mount && (
         <>
-          <Flex alignItems={"start"}>
-            <Box p={20}>
-              <VStack
-                id="fatura-form"
-                spacing={4}
-                align={"stretch"}
-                maxW={"md"}
-                m="auto"
-              >
-                <Select onChange={handleChange}>
-                  <option value={0}>Gerçek</option>
-                  <option value={1}>Tüzel</option>
-                </Select>
+          <Flex>
+            <VStack
+              id="fatura-form"
+              spacing={4}
+              w={"md"}
+              p={10}
+            >
+              <Select onChange={handleChange}>
+                <option value={0}>Gerçek Kişi</option>
+                <option value={1}>Tüzel Kişi</option>
+              </Select>
 
-                <Input placeholder="Fatura No:" />
+              <Input
+                placeholder="Fatura No:"
+                value={invoiceNumber}
+                onChange={(e) => setInvoiceNumber(e.target.value)}
+                maxLength={15}
+              />
 
+              <HStack>
+                <Input
+                  placeholder={invoiceType == 0 ? "Ad:" : "Firma Adı:"}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                {invoiceType == 0 && (
+                  <>
+                    <Input
+                      placeholder="Soyad:"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </>
+                )}
+              </HStack>
+              <Input
+                placeholder="Adres:"
+                value={address}
+                as="textarea"
+                onChange={(e) => setAddress(e.target.value)}
+                height={100}
+              />
+
+              <Input
+                placeholder="Vergi Dairesi:"
+                value={taxOffice}
+                onChange={(e) => setTaxOffice(e.target.value)}
+              />
+
+              {invoiceType == 0 ? (
+                <>
+                  <Input
+                    placeholder="Tc Kimlik No"
+                    value={tcIdentityNumber}
+                    onChange={(e) => setTcIdentityNumber(e.target.value)}
+                    maxLength={11}
+                  />
+                </>
+              ) : (
+                <>
+                  <Input
+                    placeholder="Vergi No"
+                    value={taxNumber}
+                    onChange={(e) => setTaxNumber(e.target.value)}
+                    maxLength={10}
+                  />
+                </>
+              )}
+
+              <Divider />
+              <Flex gap={5}>
                 <HStack>
                   <Input
-                    placeholder={invoiceType == 0 ? "Ad:" : "Firma Adı:"}
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    type="text"
+                    placeholder="Ürün Adı"
+                    value={productName}
+                    onChange={(e) => setProductName(e.target.value)}
                   />
-                  {invoiceType == 0 && (
-                    <>
-                      <Input
-                        placeholder="Soyad:"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                    </>
-                  )}
+                  <Input
+                    type="text"
+                    placeholder="Ürün Fiyatı"
+                    value={productPrice}
+                    onChange={(e) => setProductPrice(e.target.value)}
+                  />
+                  <Select onChange={handle2Change}>
+                    <option value={"TRY"}>₺</option>
+                    <option value={"USD"}>$</option>
+                    <option value={"EUR"}>£</option>
+
+                  </Select>
                 </HStack>
-                <Input
-                  placeholder="Adress:"
-                  value={address}
-                  as="textarea"
-                  onChange={(e) => setAddress(e.target.value)}
-                  height={100}
-                />
+                <Button colorScheme={"green"} onClick={handleAddItem}>
+                  Ekle
+                </Button>
+              </Flex>
 
-                <Input
-                  placeholder="Vergi Dairesi:"
-                  value={taxOffice}
-                  onChange={(e) => setTaxOffice(e.target.value)}
-                />
-
-                {invoiceType == 0 ? (
-                  <>
-                    <Input
-                      placeholder="Tc Kimlik No"
-                      value={tcIdentityNumber}
-                      onChange={(e) => setTcIdentityNumber(e.target.value)}
-                      maxLength={11}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Input
-                      placeholder="Vergi No"
-                      value={taxNumber}
-                      onChange={(e) => setTaxNumber(e.target.value)}
-                      maxLength={10}
-                    />
-                  </>
-                )}
-
-                <Divider />
-                <Flex gap={5}>
-                  <HStack>
-                    <Input
-                      type="text"
-                      placeholder="Ürün Adı"
-                      value={productName}
-                      onChange={(e) => setProductName(e.target.value)}
-                    />
-                    <Input
-                      type="text"
-                      placeholder="Ürün Fiyatı"
-                      value={productPrice}
-                      onChange={(e) => setProductPrice(e.target.value)}
-                    />
-                    <Select onChange={handle2Change}>
-                      <option value={'TRY'}>₺</option>
-                      <option value={'USD'}>$</option>
-                    </Select>
-                  </HStack>
-                  <Button colorScheme={"green"} onClick={handleAddItem}>
-                    Ekle
-                  </Button>
-                </Flex>
-
-                {items.length > 0 && (
-                  <TableContainer>
-                    <Table variant={"simple"}>
-                      <Thead>
-                        <Tr>
-                          <Td>Ürün Adı</Td>
-                          <Td>Fiyat</Td>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                        {items?.map((i, index) => {
-                          return (
-                            <Tr key={i.productName}>
-                              <Td>{i.productName}</Td>
-                              <Td>{i.productPrice}</Td>
-                              <Td>
-                                <IconButton
-                                  icon={<CloseIcon w={5} h={5} />}
-                                  onClick={() => removeItem(index)}
-                                  colorScheme="red"
-                                />
-                              </Td>
-                            </Tr>
-                          );
-                        })}
-                      </Tbody>
-                    </Table>
-                  </TableContainer>
-                )}
-                <SavePDFButton />
-              </VStack>
-            </Box>
+              {items.length > 0 && (
+                <TableContainer>
+                  <Table variant={"simple"}>
+                    <Thead>
+                      <Tr>
+                        <Td>Ürün Adı</Td>
+                        <Td>Fiyat</Td>
+                        <Td>Birim</Td>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {items?.map((i, index) => {
+                        return (
+                          <Tr key={i.productName}>
+                            <Td>{i.productName}</Td>
+                            <Td>{i.productPrice}</Td>
+                            <Td>{i.productCurrency}</Td>
+                            <Td>
+                              <IconButton
+                                icon={<CloseIcon w={5} h={5} />}
+                                onClick={() => removeItem(index)}
+                                colorScheme="red"
+                              />
+                            </Td>
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              )}
+              <SavePDFButton />
+            </VStack>
 
             <Invoice data={invoiceData} />
           </Flex>

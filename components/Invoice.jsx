@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 function Invoice({ data }) {
   const GetCurrentDate = () => {
@@ -103,7 +103,7 @@ function Invoice({ data }) {
               </Heading>
               <p>
                 <b> Fatura Numarası : </b>
-                {"" + data.receiver.taxOffice}
+                {"" + data.invoiceNumber}
               </p>
               <p>
                 <b>Fatura Tarihi :</b>
@@ -113,25 +113,25 @@ function Invoice({ data }) {
           </Box>
         </div>
 
-        <div></div>
-
         <div class="item">
-          <span>Ürün Adı</span>
-          <span>Fiyat</span>
-          <span>Birim</span>
+          <span><b>Ürün Adı</b></span>
+          <span><b>Fiyat</b></span>
         </div>
         {data?.items.length > 0 &&
           data?.items.map((item) => (
             <div className="item">
               <span>{item.productName}</span>
               <span>{item.productPrice + " " + item?.productCurrency}</span>
+    
             </div>
           ))}
       </div>
       <div className="separator"></div>
 
       <div className="">
-        <Text textAlign={"end"}>Toplam Tutar: {data.totalPrice || 0}</Text>
+        <Text textAlign={"end"}>
+          Toplam Tutar: {data.totalPrice + " " + data.receiver.productCurrency || 0}
+        </Text>
       </div>
       <Divider />
       <BankAccountInfo />
